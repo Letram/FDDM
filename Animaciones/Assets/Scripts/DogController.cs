@@ -9,6 +9,7 @@ public class DogController : MonoBehaviour {
     private Rigidbody2D dogBody;
     private Boolean locked;
     private Boolean dead;
+    private int direction;
     //como el sprite es más o menos simétrico, pues cogemos el spriteRenderer. Si no fuera el caso, usaríamos el Transform.ScaleX
     private SpriteRenderer dogRender;
 	// Use this for initialization
@@ -18,6 +19,7 @@ public class DogController : MonoBehaviour {
         dogBody = GetComponent<Rigidbody2D>();
         locked = false;
         dead = false;
+        direction = 1;
 	}
 	
 	// Update is called once per frame
@@ -27,28 +29,34 @@ public class DogController : MonoBehaviour {
         float mov = Input.GetAxisRaw("Horizontal"); //entre -1 y 1. Implica la dirección y la "potencia" con la que nos movemos.
         if (!dead)
         {
-            if (mov > 0)
+            if(mov != 0)
             {
-                dogRender.flipX = false;
-                //Si empezamos a caminar y estamos ya haciendo la animación del idle, pues cancelamos con el reset.
-                dogAnimator.SetTrigger("Walk");
-                dogAnimator.ResetTrigger("Idle");
-                dogAnimator.ResetTrigger("Jump");
+                if (mov > 0)
+                {
+                    dogRender.flipX = false;
+                    direction = 1;
+                }
+                else
+                {
+                    dogRender.flipX = true;
+                    direction = -1;
+                }
 
-                dogBody.velocity = new Vector2(2, 0);
-            }
-            else if (mov < 0)
-            {
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    dogAnimator.SetTrigger("Run");
+                    dogBody.velocity = new Vector2(6 * direction, 0);
+                }
+                else
+                {
 
-                dogRender.flipX = true;
-                dogAnimator.SetTrigger("Walk");
-                dogAnimator.ResetTrigger("Idle");
+                    dogAnimator.SetTrigger("Walk");
+                    dogAnimator.ResetTrigger("Idle");
 
-                dogBody.velocity = new Vector2(-2, 0);
+                    dogBody.velocity = new Vector2(2 * direction, 0);
+                }
 
-            }
-            else
-            {
+            }else{
                 dogAnimator.SetTrigger("Idle");
                 dogAnimator.ResetTrigger("Walk");
                 dogBody.velocity = new Vector2(0, 0);
