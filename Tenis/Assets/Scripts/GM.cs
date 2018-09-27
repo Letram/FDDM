@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class GM : MonoBehaviour {
 
@@ -43,19 +44,19 @@ public class GM : MonoBehaviour {
         else
             p1Score++;
         displayScores();
+
         paddles[0].transform.position = paddlePositions[0];
         paddles[1].transform.position = paddlePositions[1];
 
-        ball.transform.position = new Vector3(0, 0, 0);
-        ball.GetComponent<Rigidbody2D>().isKinematic = true;
-        ball.GetComponent<Rigidbody2D>().velocity = new Vector2(0,0);
-        ball.GetComponent<Rigidbody2D>().isKinematic = false;
-
-        ball.GetComponent<Rigidbody2D>().AddForce(new Vector3(UnityEngine.Random.Range(-200f, 200f), UnityEngine.Random.Range(-300f, 300f), 0f));
+        ball.GetComponent<ballController>().resetPosition();
+        
     }
 
     // Update is called once per frame
     void Update () {
-		
-	}
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            ball.GetComponent<ballController>().resetPosition();
+        }
+    }
 }

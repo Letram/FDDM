@@ -22,6 +22,6 @@ public class paddleController : MonoBehaviour {
         axisControl = "Vertical" + ident;
         print(axisControl);
         float yPos = transform.position.y + (Input.GetAxisRaw(axisControl) * paddleSpeed);
-        transform.position = new Vector3(transform.position.x, Mathf.Clamp(yPos, -5f, 5f), 0f);
+        transform.position = new Vector3(transform.position.x, Mathf.Clamp(yPos, -6f, 6f), 0f);
     }
 }
