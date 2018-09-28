@@ -44,23 +44,30 @@ public class DogController : MonoBehaviour {
 
                 if (Input.GetKey(KeyCode.LeftShift))
                 {
-                    dogAnimator.SetTrigger("Run");
-                    dogBody.velocity = new Vector2(6 * direction, 0);
+                    if (Input.GetKeyDown(KeyCode.S))
+                    {
+                        dogAnimator.SetTrigger("Slide");
+                        slide();
+                    }
+                    else
+                    {
+                        dogAnimator.SetTrigger("Run");
+                        dogAnimator.ResetTrigger("Idle");
+                        dogBody.velocity = new Vector2(6 * direction, 0);
+                    }
                 }
                 else
                 {
 
                     dogAnimator.SetTrigger("Walk");
-                    dogAnimator.ResetTrigger("Idle");
-
+                    resetTriggers(new String[] { "Idle" });
                     dogBody.velocity = new Vector2(2 * direction, 0);
                 }
 
             }else{
                 dogAnimator.SetTrigger("Idle");
-                dogAnimator.ResetTrigger("Walk");
+                resetTriggers(new String[] {"Walk"});
                 dogBody.velocity = new Vector2(0, 0);
-
             }
 
             //Jump
@@ -72,16 +79,29 @@ public class DogController : MonoBehaviour {
         }
 	}
 
+    private void slide()
+    {
+        GetComponent<BoxCollider2D>().size = new Vector2(GetComponent<BoxCollider2D>().size.y, GetComponent<BoxCollider2D>().size.x);
+        GetComponent<BoxCollider2D>().offset = new Vector2(GetComponent<BoxCollider2D>().offset.x, -0.87f);
+        dogBody.velocity = new Vector2(12 * direction, 0);
+    }
+
+    private void slideEnd()
+    {
+        GetComponent<BoxCollider2D>().size = new Vector2(GetComponent<BoxCollider2D>().size.y, GetComponent<BoxCollider2D>().size.x);
+        GetComponent<BoxCollider2D>().offset = new Vector2(GetComponent<BoxCollider2D>().offset.x, 0);
+
+    }
+
     private void jump()
     {
         locked = true;
-        dogBody.isKinematic = false;
         dogBody.gravityScale = 35;
-        dogBody.AddForce(new Vector3(0f, 9000f, 0f));
+        dogBody.AddForce(Vector2.up * 8000);
     }
     private void landing()
     {
-        dogBody.isKinematic = true;
+        dogBody.gravityScale = 1;
         locked = false;
     }
 
@@ -98,5 +118,11 @@ public class DogController : MonoBehaviour {
     {
         GetComponent<Transform>().position = new Vector3(0,-0.6f,0);
         dead = false;
+    }
+
+    private void resetTriggers(String[] triggers)
+    {
+        foreach (String trigger in triggers)
+            dogAnimator.ResetTrigger(trigger);
     }
 }
