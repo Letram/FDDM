@@ -62,6 +62,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\DogController.cs" />
+    <Compile Include="Assets\Scripts\DogController2.cs" />
+    <Compile Include="Assets\Scripts\groundDetector.cs" />
+    <Compile Include="Assets\ZoomController.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>F:/Master/Primer semestre/FDDM/Prácticas/FDDM-prácticas-repos/FDDM/Animaciones/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>

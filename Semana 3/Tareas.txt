@@ -1,0 +1,8 @@
+
+TAREAS
+
+-Nave que se mueva de arriba a abajo. DONE
+-Enemigo que se mueva smoothly de derecha a izquierda. DONE
+-Enemigo destruido cuando le impacta el láser. DONE
+
+-Enemigos rotan cual estrellas ninja. OPCIONAL
